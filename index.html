@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#000000" />
+  <title>С днём рождения, Сабина ♡</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <!-- 1) Матрица: отсчёт 3–2–1 и слова HAPPY → BIRTHDAY → TO → SABINA -->
+  <div id="screen-intro" class="screen screen--intro">
+    <canvas id="matrix-canvas" aria-hidden="true"></canvas>
+    <div id="intro-center" class="intro-center" aria-live="polite"></div>
+  </div>
+
+  <!-- 2) Кот с гитарой + свечи на буквах -->
+  <div id="screen-cat" class="screen screen--cat" hidden>
+    <div class="cat-stars" aria-hidden="true"></div>
+    <div class="cat-stage">
+      <div class="cat-candles-block">
+        <div class="cat-candle-row" id="candle-row-1"></div>
+        <div class="cat-candle-row" id="candle-row-2"></div>
+      </div>
+      <div class="cat-svg-wrap" aria-hidden="true">
+        <svg class="cat-svg" viewBox="0 0 220 240" xmlns="http://www.w3.org/2000/svg">
+          <g class="cat-bounce-group">
+            <ellipse class="cat-body" cx="110" cy="168" rx="62" ry="52" fill="#fff" stroke="#1a1a1a" stroke-width="2.2" />
+            <ellipse cx="88" cy="175" rx="12" ry="10" fill="#f5f5f5" stroke="#1a1a1a" stroke-width="1.5" />
+            <ellipse cx="132" cy="175" rx="12" ry="10" fill="#f5f5f5" stroke="#1a1a1a" stroke-width="1.5" />
+            <circle class="cat-head" cx="110" cy="88" r="46" fill="#fff" stroke="#1a1a1a" stroke-width="2.2" />
+            <path d="M72 52 L62 22 L88 38 Z" fill="#fff" stroke="#1a1a1a" stroke-width="2" />
+            <path d="M148 52 L158 22 L132 38 Z" fill="#fff" stroke="#1a1a1a" stroke-width="2" />
+            <path d="M85 58 L80 28 L102 45 Z" fill="#f5d84a" stroke="#1a1a1a" stroke-width="1.8" />
+            <path d="M135 58 L140 28 L118 45 Z" fill="#5b9fd9" stroke="#1a1a1a" stroke-width="1.8" />
+            <rect x="82" y="22" width="56" height="36" rx="4" fill="#f5d84a" stroke="#1a1a1a" stroke-width="2" transform="rotate(-5 110 40)" />
+            <path d="M95 18 L125 15" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" />
+            <ellipse cx="92" cy="82" rx="5" ry="3" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" transform="rotate(-15 92 82)" />
+            <ellipse cx="128" cy="82" rx="5" ry="3" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" transform="rotate(15 128 82)" />
+            <path d="M92 98 Q110 118 128 98" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" />
+            <g class="cat-guitar">
+              <rect x="38" y="118" width="68" height="88" rx="28" fill="#e8c56a" stroke="#1a1a1a" stroke-width="2.2" />
+              <rect x="98" y="135" width="72" height="22" rx="4" fill="#c49a4e" stroke="#1a1a1a" stroke-width="2" />
+              <line x1="104" y1="142" x2="160" y2="142" stroke="#333" stroke-width="1.2" />
+              <line x1="104" y1="150" x2="160" y2="150" stroke="#333" stroke-width="1.2" />
+              <circle cx="56" cy="162" r="20" fill="#6b4423" stroke="#1a1a1a" stroke-width="2" />
+            </g>
+            <g class="cat-paw-strum" transform="translate(128, 152)">
+              <ellipse cx="0" cy="0" rx="14" ry="12" fill="#fff" stroke="#1a1a1a" stroke-width="2" />
+            </g>
+            <g class="cat-paw-neck" transform="translate(102, 128)">
+              <ellipse cx="0" cy="0" rx="13" ry="11" fill="#fff" stroke="#1a1a1a" stroke-width="2" />
+            </g>
+          </g>
+        </svg>
+      </div>
+      <p class="cat-skip">Нажми где угодно — к книге ✨</p>
+    </div>
+  </div>
+
+  <!-- 3) Книга (развороты, без полосы посередине, вся область — листать вперёд; «Назад» внизу) -->
+  <div id="book-app" class="book-app" hidden>
+    <header class="site-header">
+      <p class="eyebrow">13 апреля · 17 лет</p>
+      <h1>Сабина</h1>
+      <p class="subtitle">Листай разворот — нажми на книгу ♡</p>
+    </header>
+    <main class="stage">
+      <div class="book book--spread" id="book" role="region" aria-label="Фотоальбом" tabindex="0"></div>
+      <p class="hint" id="hint">Нажми на книгу — следующий разворот. Кнопка ниже — назад.</p>
+      <button type="button" class="book-back" id="book-back" aria-label="Предыдущий разворот">← Назад</button>
+      <div class="progress" id="progress" aria-hidden="true"></div>
+    </main>
+    <footer class="site-footer">
+      <span>Сделано с теплом · пусть этот год будет твоим любимым сюжетом</span>
+    </footer>
+  </div>
+
+  <!-- 4) Сердце из фотографий -->
+  <div id="screen-heart" class="screen screen--heart" hidden>
+    <div class="heart-stars" aria-hidden="true"></div>
+    <div class="heart-collage" id="heart-collage"></div>
+    <p class="heart-hint">Ты — в каждом кадре ♡</p>
+    <button type="button" class="heart-cta" id="heart-cta">К печати</button>
+  </div>
+
+  <!-- 5) Печать-пожелание -->
+  <div class="finale-gift" id="finale-gift" hidden>
+    <div class="finale-gift__backdrop" id="finale-backdrop" aria-hidden="true"></div>
+    <div class="finale-gift__motes" id="finale-motes" aria-hidden="true"></div>
+    <div class="finale-gift__card" role="dialog" aria-modal="true" aria-labelledby="finale-title">
+      <p class="finale-gift__eyebrow">Финал</p>
+      <h2 id="finale-title" class="finale-gift__title">Тайник для тебя</h2>
+      <p class="finale-gift__lead">Отдельное пожелание — сними печать, когда будешь готова.</p>
+      <button type="button" class="finale-gift__seal" id="finale-seal" aria-controls="finale-reveal">
+        <span class="finale-gift__seal-ring" aria-hidden="true"></span>
+        <span class="finale-gift__seal-icon" aria-hidden="true">✦</span>
+        <span class="finale-gift__seal-label">Снять печать</span>
+      </button>
+      <div class="finale-gift__reveal" id="finale-reveal" hidden>
+        <p class="finale-gift__wish">
+          Пусть в этом году у тебя всегда найдётся хоть одно место и один человек, где тебя принимают без
+          объяснений. Пусть <strong>13&nbsp;апреля</strong> напоминает: мир становится теплее там, где есть ты.
+        </p>
+        <p class="finale-gift__sign">Самое лучшее — впереди. ♡</p>
+      </div>
+      <button type="button" class="finale-gift__close" id="finale-close">Закрыть</button>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
